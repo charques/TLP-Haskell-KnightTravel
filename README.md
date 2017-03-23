@@ -11,3 +11,18 @@ Recargar los módulos cargados previamente.
 ```haskell
 :reload
 ```
+
+###### PASOS
+0. cabal init
+00. cabal update && cabal install hspec
+
+cabal configure
+cabal build
+cabal install
+cabal test
+
+https://github.com/hspec/hspec
+
+
+1. inicializacion de board: createFile, createBoard
+2. activar una posición del tablero: activateSquare

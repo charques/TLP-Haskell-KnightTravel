@@ -34,17 +34,23 @@ createFile size = [False | _ <- [1..size]]
 createBoard :: Int -> Board
 createBoard size = [createFile size | _ <- [1..size]]
 
-activateSquare :: Board -> Square -> File
+activateSquare :: Board -> Square -> Board
 activateSquare board (x,y) =
     let file_to_modify = board !! x
-        --modified_file = updateFile file_to_modify y
-    in  updateFile file_to_modify y
+        modified_file = updateFile file_to_modify y
+    in  updateBoard board modified_file x
 
 updateFile :: File -> Int -> File
 updateFile  (f:fs) index
-    | index == 0     = not f:fs
+    | index == 0 = not f:fs
     | otherwise  = f : (updateFile fs (index-1))
 updateFile [] index = []
+
+updateBoard :: Board -> File -> Int -> Board
+updateBoard  (b:bs) file index
+    | index == 0 = file:bs
+    | otherwise  = b : (updateBoard bs file (index-1))
+updateBoard [] [] index = []
 
 -- Main Functions
 
@@ -57,7 +63,3 @@ type Node = (Int,Int,Board,Square,Path)
 --        node = (size, size, board, square, path)
 --    in bt fullPath validJumps node
 
-testActivate :: Int -> File
-testActivate size =
-    let board = createBoard size
-    in activateSquare board (0,1)
