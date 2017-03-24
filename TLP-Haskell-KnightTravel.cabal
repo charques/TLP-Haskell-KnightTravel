@@ -27,7 +27,7 @@ test-suite tests
    ghc-options: -Wall
    default-extensions:  OverloadedStrings
    type: exitcode-stdio-1.0
-   main-is: knightTest.hs
+   main-is: KnightTest.hs
    build-depends:       base,
                         TLP-Haskell-KnightTravel,
                         hspec                >= 1.8

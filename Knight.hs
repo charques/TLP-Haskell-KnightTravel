@@ -18,24 +18,26 @@ bt isSol comp node
 
 -- Auxiliary Functions
 
---fullPath :: Node -> Bool
---fullPath node = false
--- reduce o fall left
--- Se trata de una función que comprueba si un nodo contiene, o no, un camino completo (que recorra todo el tablero).
+-- Comprueba si un nodo contiene, o no, un camino completo.
+fullPath :: Node -> Bool
+fullPath (_,_,board,_,_) = not (foldr (\x y -> (foldr (||) False x) || y) False board)
+-- NOTA: El fold interno aplica la operación OR por columna (x). En la y va el resultado de la columna previamente reducida.
 
 --validJumps :: Node -> [Node]
---validJumps node =
+--validJumps (x,y,board,square,path) =
+--    let v = board
+--    in
 -- Esta función recibe un nodo y devuelve la lista de compleciones de dicho nodo, esto es, todos aquellos nodos en los
 -- que se visita una nueva casilla válida (que está dentro del tablero y que aún no ha sido visitada).
 
 createFile :: Int -> File
-createFile size = [False | _ <- [1..size]]
+createFile size = [True | _ <- [1..size]]
 
 createBoard :: Int -> Board
 createBoard size = [createFile size | _ <- [1..size]]
 
-activateSquare :: Board -> Square -> Board
-activateSquare board (x,y) =
+visitSquare :: Board -> Square -> Board
+visitSquare board (x,y) =
     let file_to_modify = board !! x
         modified_file = updateFile file_to_modify y
     in  updateBoard board modified_file x
@@ -44,13 +46,14 @@ updateFile :: File -> Int -> File
 updateFile  (f:fs) index
     | index == 0 = not f:fs
     | otherwise  = f : (updateFile fs (index-1))
-updateFile [] index = []
+updateFile [] _ = []
 
 updateBoard :: Board -> File -> Int -> Board
 updateBoard  (b:bs) file index
     | index == 0 = file:bs
     | otherwise  = b : (updateBoard bs file (index-1))
-updateBoard [] [] index = []
+updateBoard [] [] _ = []
+updateBoard [] (_:_) _ = []
 
 -- Main Functions
 
