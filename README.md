@@ -25,6 +25,15 @@ https://github.com/hspec/hspec
 
 
 1. inicializacion de board: createFile, createBoard
+
+Primera aproximación a fullPath
+fullPath :: Node -> Bool
+fullPath (_,_,board,_,_) = not (foldr (\x y -> (foldr (||) False x) || y) False board)
+-- NOTA: El fold interno aplica la operación OR por columna (x). En la y va el resultado de la columna previamente reducida.
+
+Segunda aproximación a fullPath
+fullPath (size,pathLength,_,_,_) = (pathLength == size*size)
+
 Primera aproximación a create board
 createFile :: Int -> File
 createFile size = [True | _ <- [1..size]]
