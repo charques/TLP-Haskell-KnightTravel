@@ -1,5 +1,7 @@
 module Knight where
 
+--import Debug.Trace
+
 -- Data Types used in program
 
 type File = [Bool]
@@ -23,7 +25,9 @@ fullPath (size,pathLength,_,_,_) = (pathLength == size*size)
 
 -- Gets the list of possible next nodes and execute the next movement from the node passed as parameter
 validJumps :: Node -> [Node]
+--validJumps (size,pathLength,board,square,path) | trace ("validJumps " ++ show square) False = undefined
 validJumps (size,pathLength,board,square,path) =
+    --trace ("validJumps = " ++ show square) (f x)
     let validSqrs = validSquares square board
     in map (\x -> visitSquare (size,pathLength,board,square,path) x) validSqrs
 

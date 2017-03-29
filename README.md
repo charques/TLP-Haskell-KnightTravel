@@ -6,12 +6,16 @@ Prácticas Haskell - UNED Teoría de los Lenguajes de Programación 2016-2017
 -- instalacion de paquetes, construcción y test
 cabal update && cabal install hspec
 cabal configure
+cabal configure --enable-profiling
 cabal build
 cabal install
 cabal test
 
 -- ejecutar el main
 time ./dist/build/TLP-Haskell-KnightTravel/TLP-Haskell-KnightTravel
+
+-- profiling
+./dist/build/TLP-Haskell-KnightTravel/TLP-Haskell-KnightTravel +RTS -p
 ```
 
 1. inicializacion de board: createFile, createBoard
