@@ -1,0 +1,50 @@
+	Mon Apr  3 22:17 2017 Time and Allocation Profiling Report  (Final)
+
+	   TLP-Haskell-KnightTravel +RTS -p -RTS
+
+	total time  =       21.87 secs   (21873 ticks @ 1000 us, 1 processor)
+	total alloc = 42,451,637,968 bytes  (excludes profiling overheads)
+
+COST CENTRE      MODULE SRC                       %time %alloc
+
+validJumps       Knight Knight.hs:(26,1)-(38,9)    51.7   71.4
+isVisited        Knight Knight.hs:41:1-49          23.8    0.0
+updateList       Knight Knight.hs:(51,1)-(52,54)   13.5   23.5
+bt               Knight Knight.hs:(14,1)-(16,58)    6.2    2.0
+updateBoard.file Knight Knight.hs:46:9-29           2.1    0.0
+updateBoard      Knight Knight.hs:(45,1)-(47,59)    1.9    2.5
+
+
+                                                                                             individual      inherited
+COST CENTRE               MODULE                SRC                       no.     entries  %time %alloc   %time %alloc
+
+MAIN                      MAIN                  <built-in>                 52          0    0.0    0.0   100.0  100.0
+ CAF                      GHC.Conc.Signal       <entire-module>            92          0    0.0    0.0     0.0    0.0
+ CAF                      GHC.IO.Encoding       <entire-module>            86          0    0.0    0.0     0.0    0.0
+ CAF                      GHC.IO.Encoding.Iconv <entire-module>            84          0    0.0    0.0     0.0    0.0
+ CAF                      GHC.IO.Handle.FD      <entire-module>            76          0    0.0    0.0     0.0    0.0
+ CAF                      GHC.IO.Handle.Text    <entire-module>            74          0    0.0    0.0     0.0    0.0
+ CAF:main1                Main                  <no location info>         98          0    0.0    0.0     0.0    0.0
+  main                    Main                  Main.hs:(6,1)-(7,42)      104          1    0.0    0.0     0.0    0.0
+ CAF:main2                Main                  <no location info>         97          0    0.0    0.0     0.0    0.0
+  main                    Main                  Main.hs:(6,1)-(7,42)      106          0    0.0    0.0     0.0    0.0
+ CAF:main3                Main                  <no location info>         96          0    0.0    0.0   100.0  100.0
+  main                    Main                  Main.hs:(6,1)-(7,42)      107          0    0.0    0.0   100.0  100.0
+   knightTravel           Knight                Knight.hs:(71,1)-(74,26)  108          1    0.0    0.0   100.0  100.0
+    knightTravel.(...)    Knight                Knight.hs:(72,24)-(73,92) 109          1    0.0    0.0   100.0  100.0
+     knightTravel.(...).r Knight                Knight.hs:72:49-96        110          1    0.0    0.0   100.0  100.0
+      bt                  Knight                Knight.hs:(14,1)-(16,58)  111   17739768    6.2    2.0   100.0  100.0
+       fullPath           Knight                Knight.hs:22:1-60         112   17739768    0.0    0.0     0.0    0.0
+       validJumps         Knight                Knight.hs:(26,1)-(38,9)   113   17739767   51.7   71.4    93.8   98.0
+        isVisited         Knight                Knight.hs:41:1-49         114   85419349   23.8    0.0    23.8    0.0
+        validJumps.newPos Knight                Knight.hs:27:12-30        119   17739767    0.9    0.6     0.9    0.6
+        updateBoard       Knight                Knight.hs:(45,1)-(47,59)  120   17739766    1.9    2.5    17.4   26.0
+         updateList       Knight                Knight.hs:(51,1)-(52,54)  121   28679161   13.5   23.5    13.5   23.5
+         updateBoard.file Knight                Knight.hs:46:9-29         123   10939395    2.1    0.0     2.1    0.0
+    knightTravel.board    Knight                Knight.hs:71:24-60        115          1    0.0    0.0     0.0    0.0
+     createBoard          Knight                Knight.hs:56:1-65         118          1    0.0    0.0     0.0    0.0
+     updateBoard          Knight                Knight.hs:(45,1)-(47,59)  116          1    0.0    0.0     0.0    0.0
+      updateList          Knight                Knight.hs:(51,1)-(52,54)  117          2    0.0    0.0     0.0    0.0
+      updateBoard.file    Knight                Knight.hs:46:9-29         122          1    0.0    0.0     0.0    0.0
+    knightTravel.path     Knight                Knight.hs:(72,24)-(73,92) 124          1    0.0    0.0     0.0    0.0
+ main                     Main                  Main.hs:(6,1)-(7,42)      105          0    0.0    0.0     0.0    0.0

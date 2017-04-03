@@ -24,8 +24,8 @@ fullPath (size,pathLength,_,_,_) = (pathLength == size*size)
 -- Gets the list of possible next nodes and execute the next movement from the node passed as parameter
 validJumps :: Node -> [Node]
 validJumps (size,pathLength,board,(a,b),path) =
-     [ let newPos = (a+x, b+y)
-       in (size, (pathLength+1), updateBoard board newPos, newPos, newPos : path)
+     [ let newPos = (a + x, b + y)
+       in (size, (pathLength + 1), updateBoard board newPos, newPos, path ++ [newPos])
         | x <- [-2, -1, 1, 2],
           y <- [-2, -1, 1, 2],
           x /= y,
@@ -34,22 +34,22 @@ validJumps (size,pathLength,board,(a,b),path) =
           x + a <= size,
           y + b > 0,
           y + b <= size,
-          isVisited board (a+x, b+y)
+          isVisited board (a + x, b + y)
         ]
 
 isVisited :: Board -> Square -> Bool
-isVisited board (x,y) = (board !! (x-1)) !! (y-1)
+isVisited board (x,y) = (board !! (x - 1)) !! (y - 1)
 
 -- Marks a board position as visited
 updateBoard :: Board -> Square -> Board
 updateBoard board (x,y) =
-    let file = board !! (x-1)
-    in updateList board (x-1) (updateList file (y-1) False)
+    let file = board !! (x - 1)
+    in updateList board (x - 1) (updateList file (y - 1) False)
 
 -- Updates a list passing the position to modify and the new element
 updateList :: [a] -> Int -> a -> [a]
 updateList list pos newElement =
-    take pos list ++ [newElement] ++ drop (pos+1) list
+    take pos list ++ [newElement] ++ drop (pos + 1) list
 
 -- Creates a board using the size especified as parameter
 createBoard :: Int -> Board
@@ -57,20 +57,14 @@ createBoard size = [ [ True | _ <- [1..size] ] | _ <- [1..size] ]
 
 -- Gets the first node path in al list of results
 getFirstPath :: [Node] -> Path
-getFirstPath nodes
-    | (length nodes) == 0 = []
-    | otherwise = getNodePath (nodes !! 0)
-
--- Retrieves the path of a node
-getNodePath :: Node -> Path
-getNodePath (_,_,_,_,path) = path
+getFirstPath nodes =
+    let (_,_,_,_,path) = if nodes /= [] then head nodes else (0, 0, [], (0,0), [])
+    in path
 
 -- Main Functions
 
 knightTravel :: Int -> Square -> Path
 knightTravel size square =
-    let firstBoard = updateBoard (createBoard size) square
-        firstNode = (size, 1, firstBoard, square, [square])
-        result = bt fullPath validJumps firstNode
-    in  getFirstPath(result)
-
+    let board = updateBoard (createBoard size) square
+        result = bt fullPath validJumps (size, 1, board, square, [square])
+    in getFirstPath result
