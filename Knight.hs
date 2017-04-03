@@ -1,7 +1,5 @@
 module Knight where
 
---import Debug.Trace
-
 -- Data Types used in program
 
 type File = [Bool]
@@ -25,35 +23,22 @@ fullPath (size,pathLength,_,_,_) = (pathLength == size*size)
 
 -- Gets the list of possible next nodes and execute the next movement from the node passed as parameter
 validJumps :: Node -> [Node]
---validJumps (size,pathLength,board,square,path) | trace ("validJumps " ++ show square) False = undefined
-validJumps (size,pathLength,board,square,path) =
-    --trace ("validJumps = " ++ show square) (f x)
-    let validSqrs = validSquares square board
-    in map (\x -> visitSquare (size,pathLength,board,square,path) x) validSqrs
+validJumps (size,pathLength,board,(a,b),path) =
+     [ let newPos = (a+x, b+y)
+       in (size, (pathLength+1), updateBoard board newPos, newPos, newPos : path)
+        | x <- [-2, -1, 1, 2],
+          y <- [-2, -1, 1, 2],
+          x /= y,
+          x /= -y,
+          x + a > 0,
+          x + a <= size,
+          y + b > 0,
+          y + b <= size,
+          isVisited board (a+x, b+y)
+        ]
 
--- Gets the list of possible next nodes from the current position in the board.
-validSquares :: Square -> Board -> [Square]
-validSquares (x,y) board =
-    let possibleSquares = [(x+2, y+1), (x+1, y+2), (x-1, y+2), (x-2, y+1), (x-2, y-1), (x-1, y-2), (x+1, y-2), (x+2, y-1)]
-    in filter (\square -> validSquare square board) possibleSquares
-
--- Checks if a square is in the board and is not already visited
-validSquare :: Square -> Board -> Bool
-validSquare (x,y) board =
-    let size = length board
-        boardValue = (board !! (x-1)) !! (y-1)
-    in inBoard size (x,y) && boardValue
-
--- Checks if a square is in the board
-inBoard :: Int -> Square -> Bool
-inBoard size (x,y) = (1<=x) && (x<=size) && (1<=y) && (y<=size)
-
--- Adds a new square to the path saved in a node. Updates the board and the path.
-visitSquare :: Node -> Square -> Node
-visitSquare (size,pathLength,board,_,path) (x,y) =
-    let modified_board = updateBoard board (x,y)
-        modified_path = path ++ [(x,y)]
-    in  (size, (pathLength+1), modified_board, (x,y), modified_path)
+isVisited :: Board -> Square -> Bool
+isVisited board (x,y) = (board !! (x-1)) !! (y-1)
 
 -- Marks a board position as visited
 updateBoard :: Board -> Square -> Board
@@ -84,8 +69,8 @@ getNodePath (_,_,_,_,path) = path
 
 knightTravel :: Int -> Square -> Path
 knightTravel size square =
-    let emptyNode = (size, 0, (createBoard size), square, [])
-        firstNode = visitSquare emptyNode square
+    let firstBoard = updateBoard (createBoard size) square
+        firstNode = (size, 1, firstBoard, square, [square])
         result = bt fullPath validJumps firstNode
     in  getFirstPath(result)
 
