@@ -37,6 +37,7 @@ validJumps (size,pathLength,board,(a,b),path) =
           isVisited board (a + x, b + y)
         ]
 
+-- Check if a board position is visited
 isVisited :: Board -> Square -> Bool
 isVisited board (x,y) = (board !! (x - 1)) !! (y - 1)
 
@@ -51,17 +52,17 @@ updateList :: [a] -> Int -> a -> [a]
 updateList list pos newElement =
     take pos list ++ [newElement] ++ drop (pos + 1) list
 
--- Creates a board using the size especified as parameter
+-- Creates a board using the size specified as parameter
 createBoard :: Int -> Board
 createBoard size = [ [ True | _ <- [1..size] ] | _ <- [1..size] ]
 
--- Gets the first node path in al list of results
+-- Gets the first node path in a list of results
 getFirstPath :: [Node] -> Path
 getFirstPath nodes =
     let (_,_,_,_,path) = if nodes /= [] then head nodes else (0, 0, [], (0,0), [])
     in path
 
--- Main Functions
+-- Main Function
 
 knightTravel :: Int -> Square -> Path
 knightTravel size square =

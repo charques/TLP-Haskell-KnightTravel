@@ -4,4 +4,4 @@ import Knight
 
 main :: IO ()
 main = do
-    putStrLn $ show (knightTravel 7 (1,1))
+    putStrLn $ show (knightTravel 1 (1,1))
